@@ -23,15 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author vinig
  */
 @Entity
-@Table(catalog = "vida_sustentavel", schema = "public")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Task.findAll", query = "SELECT t FROM Task t"),
-    @NamedQuery(name = "Task.findById", query = "SELECT t FROM Task t WHERE t.id = :id"),
-    @NamedQuery(name = "Task.findByName", query = "SELECT t FROM Task t WHERE t.name = :name"),
-    @NamedQuery(name = "Task.findByStartDate", query = "SELECT t FROM Task t WHERE t.startDate = :startDate"),
-    @NamedQuery(name = "Task.findByEndDate", query = "SELECT t FROM Task t WHERE t.endDate = :endDate"),
-    @NamedQuery(name = "Task.findByDescription", query = "SELECT t FROM Task t WHERE t.description = :description")})
+@Table(catalog = "vida_sustentavel", schema = "public", name = "task")
 public class Task implements Serializable {
 
     private static final long serialVersionUID = 1L;

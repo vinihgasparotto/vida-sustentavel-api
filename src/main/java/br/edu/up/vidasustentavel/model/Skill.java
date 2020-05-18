@@ -19,12 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author vinig
  */
 @Entity
-@Table(catalog = "vida_sustentavel", schema = "public")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Skill.findAll", query = "SELECT s FROM Skill s"),
-    @NamedQuery(name = "Skill.findById", query = "SELECT s FROM Skill s WHERE s.id = :id"),
-    @NamedQuery(name = "Skill.findByName", query = "SELECT s FROM Skill s WHERE s.name = :name")})
+@Table(catalog = "vida_sustentavel", schema = "public", name = "skill")
 public class Skill implements Serializable {
 
     private static final long serialVersionUID = 1L;
