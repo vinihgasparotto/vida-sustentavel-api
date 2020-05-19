@@ -7,16 +7,18 @@ package br.edu.up.vidasustentavel.model;
 
 import java.io.Serializable;
 import java.util.Date;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlRootElement;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  *
@@ -28,6 +30,7 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     private Integer id;
     @Basic(optional = false)
@@ -39,9 +42,11 @@ public class User implements Serializable {
     @Basic(optional = false)
     @Column(name = "sign_in_date")
     @Temporal(TemporalType.DATE)
+    @JsonProperty("sign_in_date")
     private Date signInDate;
     @Basic(optional = false)
     @Column(name = "is_admin")
+    @JsonProperty("is_admin")
     private String isAdmin;
 
     public User() {
