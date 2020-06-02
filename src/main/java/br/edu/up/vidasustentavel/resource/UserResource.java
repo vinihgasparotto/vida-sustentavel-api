@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,6 +43,13 @@ public class UserResource {
 	public ResponseEntity<User> getById(@PathVariable int id) {
 		Optional<User> user = userRepository.findById(id);
 		return user.isPresent() ? ResponseEntity.ok(user.get()) : ResponseEntity.notFound().build();
+	}
+	
+	@PostMapping("/login")
+	public ResponseEntity<User> login(@Valid @RequestBody User user) {
+		Example<User> userExample = Example.of(user);
+		Optional<User> optUser = userService.authenticate(userExample);
+		return optUser.isPresent() ? ResponseEntity.ok(optUser.get()) : ResponseEntity.notFound().build();
 	}
 	
 	@PostMapping

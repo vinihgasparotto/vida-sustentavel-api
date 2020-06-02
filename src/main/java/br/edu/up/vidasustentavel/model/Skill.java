@@ -6,11 +6,16 @@
 package br.edu.up.vidasustentavel.model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -18,16 +23,25 @@ import javax.persistence.Table;
  * @author vinig
  */
 @Entity
-@Table(catalog = "vida_sustentavel", schema = "public", name = "skill")
+@Table(name = "skill", schema = "app")
+@NamedQueries({
+    @NamedQuery(name = "Skill.findAll", query = "SELECT s FROM Skill s"),
+    @NamedQuery(name = "Skill.findById", query = "SELECT s FROM Skill s WHERE s.id = :id"),
+    @NamedQuery(name = "Skill.findByName", query = "SELECT s FROM Skill s WHERE s.name = :name")})
 public class Skill implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
+    @Column(name = "name")
     private String name;
+    @OneToMany(mappedBy = "idSkill", fetch = FetchType.LAZY)
+    private List<Reward> rewardList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "skillId", fetch = FetchType.LAZY)
+    private List<UserSkill> userSkillList;
 
     public Skill() {
     }
@@ -55,6 +69,22 @@ public class Skill implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Reward> getRewardList() {
+        return rewardList;
+    }
+
+    public void setRewardList(List<Reward> rewardList) {
+        this.rewardList = rewardList;
+    }
+
+    public List<UserSkill> getUserSkillList() {
+        return userSkillList;
+    }
+
+    public void setUserSkillList(List<UserSkill> userSkillList) {
+        this.userSkillList = userSkillList;
     }
 
     @Override

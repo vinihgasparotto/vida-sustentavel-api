@@ -7,13 +7,17 @@ package br.edu.up.vidasustentavel.model;
 
 import java.io.Serializable;
 import java.util.Date;
-
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,29 +29,49 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author vinig
  */
 @Entity
-@Table(catalog = "vida_sustentavel", schema = "public", name = "user")
+@Table(name = "user", schema = "app")
+@NamedQueries({
+    @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
+    @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
+    @NamedQuery(name = "User.findByName", query = "SELECT u FROM User u WHERE u.name = :name"),
+    @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
+    @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
+    @NamedQuery(name = "User.findBySignInDate", query = "SELECT u FROM User u WHERE u.signInDate = :signInDate"),
+    @NamedQuery(name = "User.findByIsAdmin", query = "SELECT u FROM User u WHERE u.isAdmin = :isAdmin")})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
+    @Column(name = "name")
     private String name;
     @Basic(optional = false)
+    @Column(name = "password")
     private String password;
     @Basic(optional = false)
+    @Column(name = "email")
     private String email;
+    @JsonProperty("sign_in_date")
     @Basic(optional = false)
     @Column(name = "sign_in_date")
     @Temporal(TemporalType.DATE)
-    @JsonProperty("sign_in_date")
     private Date signInDate;
+    @JsonProperty("id_admin")
     @Basic(optional = false)
     @Column(name = "is_admin")
-    @JsonProperty("is_admin")
-    private String isAdmin;
+    private boolean isAdmin;
+    @Basic(optional = false)
+    @JsonProperty("image_uri")
+    @Column(name = "image_uri")
+    private String imageUri;
+    @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY)
+    private List<UserSkill> userSkillList;
+    @OneToMany(mappedBy = "idUser", fetch = FetchType.LAZY)
+    private List<UserTask> userTaskList;
 
     public User() {
     }
@@ -56,7 +80,7 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public User(Integer id, String name, String password, String email, Date signInDate, String isAdmin) {
+    public User(Integer id, String name, String password, String email, Date signInDate, boolean isAdmin) {
         this.id = id;
         this.name = name;
         this.password = password;
@@ -105,12 +129,28 @@ public class User implements Serializable {
         this.signInDate = signInDate;
     }
 
-    public String getIsAdmin() {
+    public boolean getIsAdmin() {
         return isAdmin;
     }
 
-    public void setIsAdmin(String isAdmin) {
+    public void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
+    }
+
+    public List<UserSkill> getUserSkillList() {
+        return userSkillList;
+    }
+
+    public void setUserSkillList(List<UserSkill> userSkillList) {
+        this.userSkillList = userSkillList;
+    }
+
+    public List<UserTask> getUserTaskList() {
+        return userTaskList;
+    }
+
+    public void setUserTaskList(List<UserTask> userTaskList) {
+        this.userTaskList = userTaskList;
     }
 
     @Override
