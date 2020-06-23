@@ -21,6 +21,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  *
@@ -45,14 +46,17 @@ public class Task implements Serializable {
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
+    @JsonProperty("start_date")
     @Column(name = "start_date")
     @Temporal(TemporalType.DATE)
     private Date startDate;
+    @JsonProperty("end_date")
     @Column(name = "end_date")
     @Temporal(TemporalType.DATE)
     private Date endDate;
     @Column(name = "description")
     private String description;
+    @JsonProperty("rewards")
     @OneToMany(mappedBy = "idTask", fetch = FetchType.LAZY)
     private List<Reward> rewardList;
     @JsonIgnore

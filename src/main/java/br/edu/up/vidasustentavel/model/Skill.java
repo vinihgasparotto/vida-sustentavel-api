@@ -18,6 +18,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *
  * @author vinig
@@ -38,9 +40,11 @@ public class Skill implements Serializable {
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
+    @JsonIgnore
     @OneToMany(mappedBy = "idSkill", fetch = FetchType.LAZY)
     private List<Reward> rewardList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "skillId", fetch = FetchType.LAZY)
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "skill", fetch = FetchType.LAZY)
     private List<UserSkill> userSkillList;
 
     public Skill() {

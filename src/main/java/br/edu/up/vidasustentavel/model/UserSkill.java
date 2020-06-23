@@ -7,15 +7,20 @@ package br.edu.up.vidasustentavel.model;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  *
@@ -34,6 +39,7 @@ public class UserSkill implements Serializable {
     @Id
     @Basic(optional = false)
     @Column(name = "id_user_skill")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idUserSkill;
     @Basic(optional = false)
     @Column(name = "experience")
@@ -43,10 +49,11 @@ public class UserSkill implements Serializable {
     private int level;
     @JoinColumn(name = "skill_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Skill skillId;
+    private Skill skill;
+    @JsonIgnore
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User userId;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private User user;
 
     public UserSkill() {
     }
@@ -59,6 +66,13 @@ public class UserSkill implements Serializable {
         this.idUserSkill = idUserSkill;
         this.experience = experience;
         this.level = level;
+    }
+    
+    public UserSkill(Skill skill, User user) {
+    	this.skill = skill;
+    	this.user = user;
+        this.experience = 0;
+        this.level = 1;
     }
 
     public Integer getIdUserSkill() {
@@ -85,20 +99,20 @@ public class UserSkill implements Serializable {
         this.level = level;
     }
 
-    public Skill getSkillId() {
-        return skillId;
+    public Skill getSkill() {
+        return skill;
     }
 
-    public void setSkillId(Skill skillId) {
-        this.skillId = skillId;
+    public void setSkillId(Skill skill) {
+        this.skill = skill;
     }
 
-    public User getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setUserId(User user) {
+        this.user = user;
     }
 
     @Override

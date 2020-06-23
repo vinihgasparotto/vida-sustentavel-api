@@ -10,6 +10,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -35,6 +37,7 @@ public class UserTask implements Serializable {
     @Id
     @Basic(optional = false)
     @Column(name = "id_user_task")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idUserTask;
     @Column(name = "status")
     private Character status;
@@ -51,6 +54,12 @@ public class UserTask implements Serializable {
 
     public UserTask(Integer idUserTask) {
         this.idUserTask = idUserTask;
+    }
+    
+    public UserTask(User user, Task task, Character status) {
+        this.idUser = user;
+        this.idTask = task;
+        this.status = status;
     }
 
     public Integer getIdUserTask() {

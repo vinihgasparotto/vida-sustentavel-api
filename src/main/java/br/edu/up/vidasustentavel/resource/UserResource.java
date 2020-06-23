@@ -54,8 +54,23 @@ public class UserResource {
 	
 	@PostMapping
 	public ResponseEntity<User> create(@Valid @RequestBody User user, HttpServletResponse response) {
-		User newUser = userRepository.save(user);
+		User newUser = userService.create(user);
 		return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+	}
+	
+	@PostMapping("/{user_id}/start_task/{task_id}")
+	public ResponseEntity<User> startTask(@PathVariable int user_id, @PathVariable int task_id) {
+		return userService.startTask(user_id, task_id) == true ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+	}
+	
+	@PostMapping("/{user_id}/complete_task/{task_id}")
+	public ResponseEntity<User> completeTask(@PathVariable int user_id, @PathVariable int task_id) {
+		return userService.updateTaskStatus(user_id, task_id, 'c') == true ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+	}
+	
+	@PostMapping("/{user_id}/cancel_task/{task_id}")
+	public ResponseEntity<User> cancelTask(@PathVariable int user_id, @PathVariable int task_id) {
+		return userService.updateTaskStatus(user_id, task_id, 'x') == true ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
 	}
 	
 	@PutMapping("/{id}")

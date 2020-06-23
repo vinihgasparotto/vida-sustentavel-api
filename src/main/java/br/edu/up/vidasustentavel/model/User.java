@@ -68,7 +68,7 @@ public class User implements Serializable {
     @JsonProperty("image_uri")
     @Column(name = "image_uri")
     private String imageUri;
-    @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<UserSkill> userSkillList;
     @OneToMany(mappedBy = "idUser", fetch = FetchType.LAZY)
     private List<UserTask> userTaskList;
@@ -135,6 +135,14 @@ public class User implements Serializable {
 
     public void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
+    }
+    
+    public String getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(String imageUri) {
+        this.imageUri = imageUri;
     }
 
     public List<UserSkill> getUserSkillList() {

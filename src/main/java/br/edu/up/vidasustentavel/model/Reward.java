@@ -17,6 +17,9 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  *
  * @author vinig
@@ -31,14 +34,18 @@ public class Reward implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @JsonIgnore
     @Basic(optional = false)
     @Column(name = "id_reward")
     private Integer idReward;
+    @JsonProperty("xp_reward")
     @Column(name = "xp_reward")
     private Integer xpReward;
+    @JsonProperty("skill")
     @JoinColumn(name = "id_skill", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Skill idSkill;
+    @JsonIgnore
     @JoinColumn(name = "id_task", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Task idTask;
